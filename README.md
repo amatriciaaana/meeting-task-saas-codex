@@ -17,6 +17,10 @@ pnpm install
 pnpm dev:web
 ```
 
+## Development URL
+
+ローカル開発サーバーは、既に `3000` が使用中なら `3001` などの空きポートで起動する。
+
 ## Notes
 
 - MVP は TypeScript で開始
