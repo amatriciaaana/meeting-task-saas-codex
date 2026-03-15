@@ -1,0 +1,10 @@
+.git
+.github
+node_modules
+.next
+.pnpm-store
+coverage
+docs/*.local.md
+.env
+.env.local
+Dockerfile

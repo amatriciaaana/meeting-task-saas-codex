@@ -1,6 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
+import { AuthShell } from "../components/auth-shell";
+import { getCurrentUser } from "../lib/auth";
 
 export const metadata: Metadata = {
   title: "Meeting Task SaaS",
@@ -11,10 +13,15 @@ type RootLayoutProps = {
   children: ReactNode;
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const user = await getCurrentUser();
+
   return (
     <html lang="ja">
-      <body>{children}</body>
+      <body>
+        <AuthShell user={user} />
+        {children}
+      </body>
     </html>
   );
 }

@@ -7,4 +7,7 @@ dist
 .env.local
 coverage
 *.log
-pnpm-lock.yaml
+*.tsbuildinfo
+.DS_Store
+docs/security-review.local.md
+docs/user-credentials.local.md

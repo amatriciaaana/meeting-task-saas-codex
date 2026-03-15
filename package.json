@@ -9,13 +9,31 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:web": "pnpm --filter web dev",
-    "build": "pnpm -r build",
-    "typecheck": "pnpm -r typecheck",
-    "lint": "pnpm -r lint"
+    "dev:web": "corepack pnpm --filter web dev",
+    "build": "corepack pnpm --filter web build",
+    "typecheck": "corepack pnpm -r typecheck",
+    "lint": "corepack pnpm -r lint",
+    "test:unit": "vitest run",
+    "db:start": "docker compose up -d postgres",
+    "db:stop": "docker compose down",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "seed:users": "node scripts/seed-initial-users.mjs"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.7.0"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
-    "typescript": "^5.8.0"
+    "prisma": "^6.7.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "prisma"
+    ]
   }
 }
