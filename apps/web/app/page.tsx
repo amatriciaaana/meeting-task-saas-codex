@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { getCurrentUser } from "../lib/auth";
 import { Hero } from "../components/hero";
 
 const features = [
@@ -6,7 +8,9 @@ const features = [
   "Slack や Notion に共有できる構成を想定"
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const user = await getCurrentUser();
+
   return (
     <main className="page-shell">
       <Hero />
@@ -18,6 +22,11 @@ export default function HomePage() {
             <li key={feature}>{feature}</li>
           ))}
         </ul>
+        <div className="cta-row">
+          <Link href={user ? "/meetings" : "/login"} className="primary-button">
+            {user ? "Open Meetings MVP" : "Login"}
+          </Link>
+        </div>
       </section>
     </main>
   );

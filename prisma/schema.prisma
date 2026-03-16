@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
+}
+
+enum MeetingType {
+  weekly
+  sales
+  one_on_one
+  custom
+}
+
+enum MeetingStatus {
+  draft
+  processing
+  completed
+}
+
+enum UserRole {
+  admin
+  general
+}
+
+model Meeting {
+  id          String        @id
+  title       String        @db.VarChar(100)
+  meetingType MeetingType
+  status      MeetingStatus
+  scheduledAt DateTime
+  notes       String?
+  createdAt   DateTime      @default(now())
+
+  @@map("meetings")
+  @@index([scheduledAt(sort: Desc)])
+}
+
+model User {
+  id                 String      @id
+  username           String      @unique @db.VarChar(50)
+  displayName        String      @db.VarChar(100)
+  email              String      @unique @db.VarChar(255)
+  role               UserRole
+  passwordHash       String
+  failedLoginCount   Int         @default(0)
+  lockedAt           DateTime?
+  mustChangePassword Boolean     @default(false)
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  sessions           Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id
+  tokenHash String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}

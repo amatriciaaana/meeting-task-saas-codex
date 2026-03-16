@@ -13,13 +13,25 @@ AI 議事録 + タスク抽出 SaaS の初期プロジェクト。
 ## First Steps
 
 ```bash
+cp .env.example .env
+pnpm db:start
 pnpm install
+pnpm db:generate
+pnpm db:migrate
 pnpm dev:web
 ```
 
 ## Development URL
 
 ローカル開発サーバーは、既に `3000` が使用中なら `3001` などの空きポートで起動する。
+
+## Database
+
+- local: Docker Compose PostgreSQL
+- ORM: Prisma
+- production target: Amazon RDS for PostgreSQL
+
+この開発環境で Docker が使えない場合は、PostgreSQL を別途起動して `DATABASE_URL` を合わせたうえで `pnpm db:migrate` を実行する。
 
 ## Notes
 

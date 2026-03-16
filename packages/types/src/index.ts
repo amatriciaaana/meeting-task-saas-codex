@@ -1,3 +1,6 @@
+export * from "./meeting";
+export * from "./user";
+
 export type MeetingJobPayload = {
   meetingId: string;
   workspaceId: string;
