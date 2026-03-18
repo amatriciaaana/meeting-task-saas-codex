@@ -34,9 +34,21 @@ model Meeting {
   scheduledAt DateTime
   notes       String?
   createdAt   DateTime      @default(now())
+  transcript  Transcript?
 
   @@map("meetings")
   @@index([scheduledAt(sort: Desc)])
+}
+
+model Transcript {
+  id        String   @id
+  meetingId String   @unique
+  rawText   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  meeting   Meeting  @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+
+  @@map("transcripts")
 }
 
 model User {
