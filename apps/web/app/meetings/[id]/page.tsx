@@ -2,7 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireUser } from "../../../lib/auth";
 import { getMeetingById } from "../../../lib/meetings-store";
+import { getSummaryByMeetingId } from "../../../lib/summaries";
 import { getTranscriptByMeetingId } from "../../../lib/transcripts";
+import { SummaryPanel } from "../../../components/summary-panel";
 import { TranscriptEditor } from "../../../components/transcript-editor";
 
 const meetingTypeLabels = {
@@ -32,6 +34,7 @@ export default async function MeetingDetailPage({
   const { id } = await params;
   const meeting = await getMeetingById(id);
   const transcript = meeting ? await getTranscriptByMeetingId(id) : null;
+  const summary = meeting ? await getSummaryByMeetingId(id) : null;
 
   if (!meeting) {
     notFound();
@@ -77,6 +80,7 @@ export default async function MeetingDetailPage({
       </section>
 
       <TranscriptEditor meetingId={meeting.id} initialTranscript={transcript} />
+      <SummaryPanel meetingId={meeting.id} initialSummary={summary} />
     </main>
   );
 }
