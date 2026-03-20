@@ -1,4 +1,6 @@
 export * from "./meeting";
+export * from "./summary";
+export * from "./transcript";
 export * from "./user";
 
 export type MeetingJobPayload = {

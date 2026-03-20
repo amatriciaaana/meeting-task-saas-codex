@@ -2,6 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireUser } from "../../../lib/auth";
 import { getMeetingById } from "../../../lib/meetings-store";
+import { getSummaryByMeetingId } from "../../../lib/summaries";
+import { getTranscriptByMeetingId } from "../../../lib/transcripts";
+import { SummaryPanel } from "../../../components/summary-panel";
+import { TranscriptEditor } from "../../../components/transcript-editor";
 
 const meetingTypeLabels = {
   weekly: "Weekly",
@@ -29,6 +33,8 @@ export default async function MeetingDetailPage({
   await requireUser();
   const { id } = await params;
   const meeting = await getMeetingById(id);
+  const transcript = meeting ? await getTranscriptByMeetingId(id) : null;
+  const summary = meeting ? await getSummaryByMeetingId(id) : null;
 
   if (!meeting) {
     notFound();
@@ -72,6 +78,9 @@ export default async function MeetingDetailPage({
         <p className="eyebrow">Notes</p>
         <p>{meeting.notes || "No notes yet."}</p>
       </section>
+
+      <TranscriptEditor meetingId={meeting.id} initialTranscript={transcript} />
+      <SummaryPanel meetingId={meeting.id} initialSummary={summary} />
     </main>
   );
 }

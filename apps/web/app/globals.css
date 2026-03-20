@@ -362,6 +362,20 @@ body {
   max-width: 520px;
 }
 
+.transcript-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.summary-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.summary-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 @media (max-width: 640px) {
   .page-shell {
     width: min(100vw - 24px, 1100px);

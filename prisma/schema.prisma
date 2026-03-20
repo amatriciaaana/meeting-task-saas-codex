@@ -34,11 +34,38 @@ model Meeting {
   scheduledAt DateTime
   notes       String?
   createdAt   DateTime      @default(now())
+  transcript  Transcript?
+  summary     Summary?
 
   @@map("meetings")
   @@index([scheduledAt(sort: Desc)])
 }
 
+model Transcript {
+  id        String   @id
+  meetingId String   @unique
+  rawText   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  meeting   Meeting  @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+
+  @@map("transcripts")
+}
+
+model Summary {
+  id                String   @id
+  meetingId         String   @unique
+  summaryText       String   @db.Text
+  decisionsText     String   @db.Text
+  openQuestionsText String   @db.Text
+  provider          String   @db.VarChar(64)
+  promptVersion     String   @db.VarChar(32)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  meeting           Meeting  @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+
+  @@map("summaries")
+}
 model User {
   id                 String      @id
   username           String      @unique @db.VarChar(50)
